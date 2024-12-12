@@ -9,11 +9,14 @@ private:
     int cellCount;
     Image image;
 public:
-    Food(int cellSize, int cellCount);
+    Food();
     ~Food();
     Vector2 position;
     Texture2D texture;
     void Draw();
+    void SetCellSize(int cellSize);
+    void SetCellCount(int cellCount);
+    Vector2 Spawn();
     Vector2 GenerateRandomPosition();
     
 };

@@ -1,11 +1,8 @@
 #include "food.hpp"
 #include "colors.hpp"
 
-Food::Food(int cellSize, int cellCount)
+Food::Food()
 {
-    this-> cellSize = cellSize;
-    this-> cellCount = cellCount;
-    position = GenerateRandomPosition();
     image = LoadImage("Graphics/food.png");
     texture = LoadTextureFromImage(image);
     UnloadImage(image);
@@ -20,6 +17,22 @@ void Food::Draw()
 {
     DrawTexture(texture,position.x * cellSize, position.y * cellSize, WHITE);
     
+}
+
+void Food::SetCellSize(int cellSize)
+{
+    this-> cellSize = cellSize;
+}
+
+void Food::SetCellCount(int cellCount)
+{
+    this -> cellCount = cellCount;
+}
+
+Vector2 Food::Spawn()
+{
+    position = GenerateRandomPosition();
+    return position;
 }
 
 Vector2 Food::GenerateRandomPosition()

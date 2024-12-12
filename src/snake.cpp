@@ -3,9 +3,9 @@
 #include "colors.hpp"
 
 
-Snake::Snake(int cellSize)
+Snake::Snake()
 {
-    this -> cellSize = cellSize;
+    
     body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9}};
     direction = {1,0};
 }
@@ -26,7 +26,76 @@ void Snake::Draw()
 
 void Snake::Update()
 {
-    body.pop_back();
     Vector2 newHead = Vector2Add(body[0], direction);
-    body.push_front(Vector2{newHead.x, newHead.y});
+    body.push_front(newHead);
+
+    if(addSegment) 
+    {
+        addSegment = false;
+    } 
+    else 
+    {
+        body.pop_back();
+    }
+}
+
+void Snake::MoveUp()
+{
+    direction = {0,-1};
+}
+
+void Snake::MoveDown()
+{
+    direction = {0,1};
+}
+
+void Snake::MoveRight()
+{
+    direction = {1,0};
+}
+
+void Snake::MoveLeft()
+{
+    direction = {-1,0};
+}
+
+bool Snake::isNotMovingUp()
+{
+    if(direction.y != -1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Snake::isNotMovingDown()
+{
+    if(direction.y != 1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Snake::isNotMovingRight()
+{
+    if(direction.x != 1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Snake::isNotMovingLeft()
+{
+    if(direction.x != -1)
+    {
+        return true;
+    }
+    return false;
+}
+
+void Snake::setCellSize(int cellSize)
+{
+    this -> cellSize = cellSize;
 }
