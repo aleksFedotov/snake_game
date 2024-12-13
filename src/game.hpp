@@ -31,6 +31,7 @@ private:
     void CheckCollisionsWithTail();
     bool ElementInDeque(Vector2 foodPosition, std::deque<Vector2> snakeBody);
     void GenerateNewFoodPosition();
+    void Reset();
 
    
 };

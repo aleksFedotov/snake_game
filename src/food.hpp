@@ -18,6 +18,7 @@ public:
     void SetCellSize(int cellSize);
     void SetCellCount(int cellCount);
     void SetOffset(int offset);
+    void Initialize(int cellSize, int cellCount, int offset);
     Vector2 Spawn();
     Vector2 GenerateRandomPosition();
     

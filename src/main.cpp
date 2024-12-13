@@ -22,34 +22,35 @@ bool EventTriggered(double interval)
 
 int main() 
 {
-    int cellSize = 30;
-    int cellCount = 25;
-    int offset = 75;
+    constexpr float UPDATE_INTERVAL = 0.2f;
+    constexpr int DEFAULT_CELL_SIZE = 30;
+    constexpr int DEFAULT_CELL_COUNT  = 25;
+    constexpr int DEFAULT_OFFSET = 75;
 
-    const int screenWidth  = 2*offset + cellSize * cellCount;
-    const int screenHeight = 2*offset + cellSize * cellCount;
+    const int screenWidth  = 2*DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
+    const int screenHeight = 2*DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
     int fps = 60;
 
     InitWindow(screenWidth,screenHeight, "Snake Game");
     SetTargetFPS(fps);
 
 
-    Game game = Game(cellSize,cellCount,offset);
+    Game game = Game(DEFAULT_CELL_SIZE,DEFAULT_CELL_COUNT,DEFAULT_OFFSET);
 ;
     while(!WindowShouldClose())
     {   
         BeginDrawing();
         game.HandleInput();
-        if(EventTriggered(0.2))
+        if(EventTriggered(UPDATE_INTERVAL))
         {
             game.Update();
         }
 
     
         ClearBackground(green);
-        DrawRectangleLinesEx(Rectangle{(float)offset-5, (float)offset - 5, (float)cellSize*cellCount +10,(float)cellSize*cellCount +10}, 5, darkGreen);
-        DrawText("Retro Snake", offset - 5, 20, 40, darkGreen);
-        DrawText(TextFormat("%i", game.score), offset - 5, offset + cellSize * cellCount + 10, 40, darkGreen);
+        DrawRectangleLinesEx(Rectangle{(float)DEFAULT_OFFSET-5, (float)DEFAULT_OFFSET - 5, (float)DEFAULT_CELL_SIZE*DEFAULT_CELL_COUNT +10,(float)DEFAULT_CELL_SIZE*DEFAULT_CELL_COUNT +10}, 5, darkGreen);
+        DrawText("Retro Snake", DEFAULT_OFFSET - 5, 20, 40, darkGreen);
+        DrawText(TextFormat("%i", game.score), DEFAULT_OFFSET - 5, DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT + 10, 40, darkGreen);
         game.Draw();
      
 

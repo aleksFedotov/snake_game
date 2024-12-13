@@ -6,11 +6,8 @@ Game::Game(int cellSize, int cellCount, int offset)
     this -> cellSize = cellSize;
     this -> cellCount = cellCount;
     this -> offset = offset;
-    snake.setCellSize(cellSize);
-    snake.setOffset(offset);
-    food.SetCellSize(cellSize);
-    food.SetCellCount(cellCount);
-    food.SetOffset(offset);
+    snake.Initialize(cellSize,offset);
+    food.Initialize(cellSize, cellCount,offset);
     food.Spawn();
     running = true;
     score = 0;
@@ -48,24 +45,24 @@ void Game::HandleInput()
 {
     if(IsKeyPressed(KEY_UP) && snake.isNotMovingDown()) 
     {
-        snake.MoveUp();
+        snake.SetDirection({0, -1});
         running = true;
     }
     else if(IsKeyPressed(KEY_DOWN) && snake.isNotMovingUp())
     {
-        snake.MoveDown();
+        snake.SetDirection({0, 1});
         running = true;
 
     }
     else if(IsKeyPressed(KEY_RIGHT) && snake.isNotMovingLeft())
     {
-        snake.MoveRight();
+        snake.SetDirection({1, 0});
         running = true;
 
     }
     else if(IsKeyPressed(KEY_LEFT) && snake.isNotMovingRight())
     {
-        snake.MoveLeft();
+        snake.SetDirection({-1, 0});
         running = true;
 
     }
@@ -78,11 +75,9 @@ void Game::HandleInput()
 
 void Game::GameOver()
 {
-    snake.Reset();
-    GenerateNewFoodPosition();
-    running = false;
-    score = 0;
+    
     PlaySound(wallSound);
+    Reset();
 }
 
 
@@ -100,16 +95,8 @@ void Game::CheckCollisionWithFood()
 
 void Game::CheckCollisionsWithEdges()
 {
-    if(snake.head.x == cellCount || snake.head.x == -1)
-    {
+     if (snake.IsOutOfBounds(cellCount)) {
         GameOver();
-        
-    }
-    if(snake.head.y == cellCount || snake.head.y == -1)
-    {
-        GameOver();
-        
-
     }
 }
 
@@ -138,11 +125,24 @@ bool Game::ElementInDeque(Vector2 element, std::deque<Vector2> deque)
 
 void Game::GenerateNewFoodPosition()
 {   
-    Vector2 newPosition = food.Spawn();
-        while (ElementInDeque(newPosition, snake.body))
-        {
-            newPosition = food.Spawn();
+    Vector2 newPosition;
+    int attempts = 0;
+    do {
+        newPosition = food.Spawn();
+        attempts++;
+        if (attempts > cellCount * cellCount) {
+            TraceLog(LOG_WARNING, "Failed to place food after maximum attempts.");
+            return;
         }
-       
+    } while (ElementInDeque(newPosition, snake.body));
    
+}
+
+
+void Game::Reset()
+{
+    snake.Reset();
+    GenerateNewFoodPosition();
+    score = 0;
+    running = false;
 }

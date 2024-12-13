@@ -15,23 +15,17 @@ Food::~Food()
 
 void Food::Draw()
 {
-    DrawTexture(texture,offset + position.x * cellSize,offset + position.y * cellSize, WHITE);
+    int xPos = offset + position.x * cellSize;
+    int yPos = offset + position.y * cellSize;
+    DrawTexture(texture, xPos, yPos, WHITE);
     
 }
 
-void Food::SetCellSize(int cellSize)
+void Food::Initialize(int cellSize, int cellCount, int offset)
 {
-    this-> cellSize = cellSize;
-}
-
-void Food::SetCellCount(int cellCount)
-{
-    this -> cellCount = cellCount;
-}
-
-void Food::SetOffset(int offset)
-{
-    this -> offset  = offset;
+    this->cellSize = cellSize;
+    this->cellCount = cellCount;
+    this->offset = offset;
 }
 
 Vector2 Food::Spawn()

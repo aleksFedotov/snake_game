@@ -5,7 +5,6 @@
 
 Snake::Snake()
 {
-    
     body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9}};
     direction = {1,0};
     head = body[0];
@@ -48,68 +47,39 @@ void Snake::Reset()
     head = body[0];
 }
 
-void Snake::MoveUp()
-{
-    direction = {0,-1};
-}
-
-void Snake::MoveDown()
-{
-    direction = {0,1};
-}
-
-void Snake::MoveRight()
-{
-    direction = {1,0};
-}
-
-void Snake::MoveLeft()
-{
-    direction = {-1,0};
-}
 
 bool Snake::isNotMovingUp()
 {
-    if(direction.y != -1)
-    {
-        return true;
-    }
-    return false;
+    return direction.y != -1;
 }
 
 bool Snake::isNotMovingDown()
 {
-    if(direction.y != 1)
-    {
-        return true;
-    }
-    return false;
+    return direction.y != 1;
 }
 
 bool Snake::isNotMovingRight()
 {
-    if(direction.x != 1)
-    {
-        return true;
-    }
-    return false;
+    return direction.x != 1;
 }
 
 bool Snake::isNotMovingLeft()
 {
-    if(direction.x != -1)
-    {
-        return true;
-    }
-    return false;
+    return direction.x != -1;
 }
 
-void Snake::setCellSize(int cellSize)
+bool Snake::IsOutOfBounds(int cellCount)
+{
+   return head.x < 0 || head.y < 0 || head.x >= cellCount || head.y >= cellCount;
+}
+
+void Snake::SetDirection(Vector2 newDirection)
+{
+    direction = newDirection;
+}
+
+void Snake::Initialize(int cellSize, int offSet)
 {
     this -> cellSize = cellSize;
-}
-
-void Snake::setOffset(int offSet)
-{
     this -> offset = offSet;
 }
