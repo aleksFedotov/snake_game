@@ -8,6 +8,7 @@ Snake::Snake()
     
     body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9}};
     direction = {1,0};
+    head = body[0];
 }
 
 void Snake::Draw()
@@ -17,7 +18,7 @@ void Snake::Draw()
     {
         float x = body[i].x;
         float y = body[i].y;
-        Rectangle segment = Rectangle{x*cellSize, y *cellSize, (float)cellSize, (float)cellSize};
+        Rectangle segment = Rectangle{offset +  x*cellSize,offset + y *cellSize, (float)cellSize, (float)cellSize};
 
         DrawRectangleRounded(segment, 0.5, 6, darkGreen);
     }
@@ -26,8 +27,9 @@ void Snake::Draw()
 
 void Snake::Update()
 {
-    Vector2 newHead = Vector2Add(body[0], direction);
+    Vector2 newHead = Vector2Add(head, direction);
     body.push_front(newHead);
+    head = newHead;
 
     if(addSegment) 
     {
@@ -37,6 +39,13 @@ void Snake::Update()
     {
         body.pop_back();
     }
+}
+
+void Snake::Reset()
+{
+    body = {Vector2{6,9}, Vector2{5,9}, Vector2{4,9}};
+    direction = {0,1};
+    head = body[0];
 }
 
 void Snake::MoveUp()
@@ -98,4 +107,9 @@ bool Snake::isNotMovingLeft()
 void Snake::setCellSize(int cellSize)
 {
     this -> cellSize = cellSize;
+}
+
+void Snake::setOffset(int offSet)
+{
+    this -> offset = offSet;
 }

@@ -24,16 +24,17 @@ int main()
 {
     int cellSize = 30;
     int cellCount = 25;
+    int offset = 75;
 
-    const int screenWidth  = cellSize * cellCount;
-    const int screenHeight = cellSize * cellCount;
+    const int screenWidth  = 2*offset + cellSize * cellCount;
+    const int screenHeight = 2*offset + cellSize * cellCount;
     int fps = 60;
 
     InitWindow(screenWidth,screenHeight, "Snake Game");
     SetTargetFPS(fps);
 
 
-    Game game = Game(cellSize,cellCount);
+    Game game = Game(cellSize,cellCount,offset);
 ;
     while(!WindowShouldClose())
     {   
@@ -46,6 +47,9 @@ int main()
 
     
         ClearBackground(green);
+        DrawRectangleLinesEx(Rectangle{(float)offset-5, (float)offset - 5, (float)cellSize*cellCount +10,(float)cellSize*cellCount +10}, 5, darkGreen);
+        DrawText("Retro Snake", offset - 5, 20, 40, darkGreen);
+        DrawText(TextFormat("%i", game.score), offset - 5, offset + cellSize * cellCount + 10, 40, darkGreen);
         game.Draw();
      
 

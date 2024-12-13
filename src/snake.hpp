@@ -8,11 +8,14 @@ class Snake
 {
 private:
     int cellSize;
+    int offset;
 public:
     Snake();
     std::deque<Vector2> body;
+    Vector2 head;
     void Draw();
     void Update();
+    void Reset();
     void MoveUp();
     void MoveDown();
     void MoveRight();
@@ -22,6 +25,7 @@ public:
     bool isNotMovingRight();
     bool isNotMovingLeft();
     void setCellSize(int cellSize);
+    void setOffset(int offSet);
     bool addSegment = false;
     Vector2 direction;
 };
