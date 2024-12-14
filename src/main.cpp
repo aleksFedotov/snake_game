@@ -4,7 +4,6 @@
 #include "snake.hpp"
 #include "game.hpp"
 
-
 // Global variable to track the time of the last update.
 double lastUpdateTime = 0;
 
@@ -22,41 +21,61 @@ bool EventTriggered(double interval)
 
 int main() 
 {
-    constexpr float UPDATE_INTERVAL = 0.2f;
-    constexpr int DEFAULT_CELL_SIZE = 30;
-    constexpr int DEFAULT_CELL_COUNT  = 25;
-    constexpr int DEFAULT_OFFSET = 75;
+    // Constants for game configuration.
+    constexpr float UPDATE_INTERVAL = 0.2f; // Interval for game updates.
+    constexpr int DEFAULT_CELL_SIZE = 30; // Size of each cell in the grid.
+    constexpr int DEFAULT_CELL_COUNT  = 25; // Number of cells in one row/column.
+    constexpr int DEFAULT_OFFSET = 75; // Offset for the game grid from the window borders.
 
-    const int screenWidth  = 2*DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
-    const int screenHeight = 2*DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
-    int fps = 60;
+    // Calculate the screen dimensions based on grid size and offset.
+    const int screenWidth  = 2 * DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
+    const int screenHeight = 2 * DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT;
+    int fps = 60; // Set the frame rate of the game.
 
-    InitWindow(screenWidth,screenHeight, "Snake Game");
-    SetTargetFPS(fps);
+    InitWindow(screenWidth, screenHeight, "Snake Game"); // Initialize the game window.
+    SetTargetFPS(fps); // Set the target frames per second.
 
+    // Initialize the game with the specified cell size, count, and offset.
+    Game game = Game(DEFAULT_CELL_SIZE, DEFAULT_CELL_COUNT, DEFAULT_OFFSET);
 
-    Game game = Game(DEFAULT_CELL_SIZE,DEFAULT_CELL_COUNT,DEFAULT_OFFSET);
-;
-    while(!WindowShouldClose())
+    while(!WindowShouldClose()) // Main game loop, runs until the window should close.
     {   
-        BeginDrawing();
+        BeginDrawing(); // Begin drawing the current frame.
+
+        // Handle player input.
         game.HandleInput();
+
+        // Update the game state at regular intervals.
         if(EventTriggered(UPDATE_INTERVAL))
         {
             game.Update();
         }
 
-    
+        // Clear the background with the green color.
         ClearBackground(green);
-        DrawRectangleLinesEx(Rectangle{(float)DEFAULT_OFFSET-5, (float)DEFAULT_OFFSET - 5, (float)DEFAULT_CELL_SIZE*DEFAULT_CELL_COUNT +10,(float)DEFAULT_CELL_SIZE*DEFAULT_CELL_COUNT +10}, 5, darkGreen);
-        DrawText("Retro Snake", DEFAULT_OFFSET - 5, 20, 40, darkGreen);
-        DrawText(TextFormat("%i", game.score), DEFAULT_OFFSET - 5, DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT + 10, 40, darkGreen);
-        game.Draw();
-     
 
-        EndDrawing();
+        // Draw the game border.
+        DrawRectangleLinesEx(
+            Rectangle{(float)DEFAULT_OFFSET - 5, (float)DEFAULT_OFFSET - 5, 
+                      (float)DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT + 10, 
+                      (float)DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT + 10},
+            5, darkGreen);
+
+        // Display the game title.
+        DrawText("Retro Snake", DEFAULT_OFFSET - 5, 20, 40, darkGreen);
+
+        // Display the current score below the game grid.
+        DrawText(TextFormat("%i", game.score), 
+                 DEFAULT_OFFSET - 5, 
+                 DEFAULT_OFFSET + DEFAULT_CELL_SIZE * DEFAULT_CELL_COUNT + 10, 
+                 40, darkGreen);
+
+        // Draw the game objects (snake, food, etc.).
+        game.Draw();
+
+        EndDrawing(); // End drawing the current frame.
     }
 
-    CloseWindow();
+    CloseWindow(); // Close the game window and clean up resources.
 
 }

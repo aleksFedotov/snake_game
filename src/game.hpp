@@ -24,7 +24,7 @@ private:
     int cellSize;
     int cellCount;
     int offset;
-    Snake snake = Snake();
+    Snake snake = Snake(6,9,3);
     Food food = Food();
     void CheckCollisionWithFood();
     void CheckCollisionsWithEdges();

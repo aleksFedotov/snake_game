@@ -10,7 +10,7 @@ private:
     int cellSize;
     int offset;
 public:
-    Snake();
+    Snake(int startX, int startY, int length);
     std::deque<Vector2> body;
     Vector2 head;
     void Draw();
@@ -23,6 +23,7 @@ public:
     bool IsOutOfBounds(int cellCount);
     void SetDirection(Vector2 newDirection);
     void Initialize(int cellSize,int offSet);
+    void Grow();
     bool addSegment = false;
     Vector2 direction;
 };
